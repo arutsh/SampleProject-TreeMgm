@@ -22,6 +22,21 @@ class TreeTypeManager(models.Manager):
 
         return super(models.Manager, self).create(**kwargs)
     
+    def delete(self, ids):
+        
+        # print(f"I am delete function and deleteing tree types with following ids {ids}")
+        self.filter(id__in=ids).delete()
+
+    def update(self, id, **kwargs):
+        """Updates tree type data for given id
+
+        :return: None
+        :rtype: None
+        """
+        self.filter(id=id).update(**kwargs)
+        
+        
+        
 
     
     

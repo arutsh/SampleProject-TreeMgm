@@ -72,7 +72,73 @@ class CreateTreeTypeMutation(graphene.Mutation):
         return CreateTreeTypeMutation(ret)
 
 
+class UpdateTreeTypeMutation(graphene.Mutation):
+    """Updates existing tree type 
+
+    :param graphene: id, name, desc, lifespan, oxygen
+    :type graphene: _type_
+    :return: _description_
+    :rtype: TreeType
+    """
+    class Arguments:
+        id = graphene.ID(required=True)
+        name = graphene.String()
+        description = graphene.String()
+        lifespan = graphene.Int()
+        oxygen = graphene.Int()
+
+    tree_type = graphene.Field(TreeTypeType)
+
+    @classmethod
+    def mutate(cls, root, 
+               info, id,
+               name=None, 
+               description=None,
+               lifespan=None, 
+               oxygen=None):
+        
+        data = {
+        }
+
+        if name: 
+            data["name"] = name
+        if description:
+            data['description'] = description
+        if lifespan:
+            data['lifespan'] = lifespan
+        if oxygen:
+            data['oxygen'] = oxygen
+        if data:
+            TreeType.objects.update(id=id, **data)
+        
+        return UpdateTreeTypeMutation(TreeType.objects.get(pk=id))
+
+
+class DeleteTreeTypeMutation(graphene.Mutation):
+    """Delete existing tree types by given list of ids
+
+    :param graphene: id
+    :type graphene: _type_
+    :return: _description_
+    :rtype: TreeType
+    """
+    class Arguments:
+        ids = graphene.List(graphene.ID, required=True)
+
+    tree_type = graphene.Field(graphene.Boolean)
+
+    @classmethod
+    def mutate(cls, root, 
+               info, ids):
+        
+        return DeleteTreeTypeMutation(TreeType.objects.delete(ids))
+
+
+
+
 class Mutation(graphene.ObjectType):
     create_tree_type = CreateTreeTypeMutation.Field()
+    update_tree_type = UpdateTreeTypeMutation.Field()
+    delete_tree_types = DeleteTreeTypeMutation.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
