@@ -54,6 +54,7 @@ ipython_config.py
 
 # pyenv
 .python-version
+*.python-env
 
 # pyflow
 __pypackages__/
