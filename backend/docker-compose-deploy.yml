@@ -1,0 +1,54 @@
+services:
+  django: 
+    build:
+      context: .
+    restart: always
+    volumes:
+      - static-data:/vol/web
+    environment:
+      - DB_HOST=database
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_PORT=${DB_PORT}
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
+    depends_on:
+      database:
+        condition: service_healthy
+
+  
+
+
+  database:
+    image: postgres:12-alpine
+    volumes:
+      - prod-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "${DB_NAME}", "-U", "${DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  proxy:
+    build:
+      context: ./proxy
+    restart: always
+    depends_on:
+      - django
+    ports:
+      - 8080:8000
+    volumes:
+      - static-data:/vol/web
+    environment:
+      - LISTEN_PORT=8000
+      - APP_HOST=django
+      - APP_PORT=8080
+
+volumes:
+  prod-db-data:
+  static-data:
