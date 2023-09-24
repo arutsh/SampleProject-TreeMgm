@@ -40,9 +40,7 @@ jobs:
         pip install psycopg2-binary
         pip install -r backend/requirements.txt
     - name: Run migrations
-      run: python3 manage.py migrate
+      run: python3 backend/app/manage.py migrate
     - name: Run Tests
-
-
       run: |
-        python3 manage.py test tree
+        python3 backend/app/manage.py test tree
