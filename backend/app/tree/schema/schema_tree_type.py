@@ -4,14 +4,11 @@ import logging
 from graphql_jwt.decorators import login_required, permission_required
 from graphene_django import DjangoObjectType
 from ..models import *
-
+from .schema_types import *
 # TODO It is much better to use Relay, if the DB is big
 
 
-class TreeTypeType(DjangoObjectType):
-    class Meta:
-        model = TreeType
-        fields = "__all__"
+
 
 class Query(graphene.ObjectType):
    

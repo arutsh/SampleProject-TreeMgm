@@ -19,10 +19,17 @@ class TreeManager(models.Manager):
     
     def create(self, **kwargs):
         """
-        Overriding create function just in case we have to do something with arguments before we create new record
+        Overriding create function 
+        it received tree type id and subsitutes with tree type object before createing
+        in case there is no such id, it just does nothing and returns None
         """
+        
+        kwargs['planted_on'] = kwargs['planted_on'] or timezone.now()
 
-        return super(models.Manager, self).create(**kwargs)
+        kwargs['type'] = TreeType.objects.get_or_none(id=kwargs['type'])
+
+        if kwargs['type']:      
+            return super(models.Manager, self).create(**kwargs)
     
     def delete(self, ids):
         
@@ -33,11 +40,19 @@ class TreeManager(models.Manager):
     def update(self, id, **kwargs):
         """Updates tree data for given id
 
-        :return: None
-        :rtype: None
+        :return: updated Tree object
+        :rtype: Tree
         """
-        # TODO: update modified by         
+        # Change type id with object
+        if (kwargs['type'] and not isinstance(kwargs['type'], TreeType)):
+            kwargs['type'] = TreeType.objects.get_or_none(id=kwargs['type'])
+            #  in case type is not TreeType instance, neaither exists when simply remove from dict
+            if not kwargs['type']:
+                del kwargs['type']
+        # print(f"kwargs  after del has values {kwargs}")
         self.filter(id=id).update(modified_on=timezone.now(), **kwargs)
+
+        return self.get(id=id)
 
 
     

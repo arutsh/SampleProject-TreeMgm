@@ -25,7 +25,7 @@ class TreeTypeTest(TestCase):
     def test_create_tree(self):
         tree_type = mixer.blend(TreeType)
         tree = {"identifier" : "TEST-TREE-ID",
-                "type" : tree_type,
+                "type" : tree_type.id,
                 "location": "Forest1",
                 "planted_on": timezone.now()}
         
@@ -34,11 +34,12 @@ class TreeTypeTest(TestCase):
 
     def test_update_tree(self):
         tree_type = mixer.blend(TreeType)
+
         tree = { "identifier" : "TEST-TREE-ID-2",
                 "type" : tree_type,
                 "location": "Forest1",
                 "planted_on": timezone.now()}
-        
+        # CASE 1: tree type instance is passed
         Tree.objects.update(id=self.tree1.id, **tree)
         # Checks if identifier is updated
         self.assertEqual(tree['identifier'], 
@@ -48,7 +49,41 @@ class TreeTypeTest(TestCase):
         self.assertEqual(tree_type.name,
                          Tree.objects.get(pk=self.tree1.id).type.name,
                          f"{tree_type.name} has to be equal {Tree.objects.get(pk=self.tree1.id).type.name}")
-       
+        
+
+        # CASE 2:  instead of tree type , tree type id is passed:
+        tree = { "identifier" : "TEST-TREE-ID-2",
+                "type" : tree_type.id,
+                "location": "Forest1",
+                "planted_on": timezone.now()}
+        Tree.objects.update(id=self.tree1.id, **tree)
+         # Checks if identifier is updated
+        self.assertEqual(tree['identifier'], 
+                         Tree.objects.get(pk=self.tree1.id).identifier, 
+                         f"{tree['identifier']} has to be equal {Tree.objects.get(pk=self.tree1.id)}")
+        # Checks if tree type is updated
+        self.assertEqual(tree_type.name,
+                         Tree.objects.get(pk=self.tree1.id).type.name,
+                         f"{tree_type.name} has to be equal {Tree.objects.get(pk=self.tree1.id).type.name}")
+        
+
+
+        # CASE 3:  UNKNOWN is passed for tree type
+        tree = { "identifier" : "TEST-TREE-ID-2",
+                "type" : 1234,
+                "location": "Forest1",
+                "planted_on": timezone.now()}
+        Tree.objects.update(id=self.tree1.id, **tree)
+         # Checks if identifier is updated
+        self.assertEqual(tree['identifier'], 
+                         Tree.objects.get(pk=self.tree1.id).identifier, 
+                         f"{tree['identifier']} has to be equal {Tree.objects.get(pk=self.tree1.id)}")
+        # Checks if tree type is updated
+        self.assertEqual(tree_type.name,
+                         Tree.objects.get(pk=self.tree1.id).type.name,
+                         f"{tree_type.name} has to be equal {Tree.objects.get(pk=self.tree1.id).type.name}")
+        
+
 
     def test_delete_tree(self):
         id = self.tree1.id
