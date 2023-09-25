@@ -9,7 +9,7 @@ class BaseModel(models.Model):
     It will contain general fields like, when record was created and 
     '''
     created_on = models.DateTimeField(editable=False)
-    modified_on = models.DateTimeField(editable=False)
+    modified_on = models.DateTimeField(editable=False, default=timezone.now)
     # TODO should not be true, has to be removed after functionally is implemented
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='%(app_label)s_%(class)s_created_by')
     modified_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='%(app_label)s_%(class)s_modified_by')

@@ -1,38 +1,75 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import { formatDate } from '../../../utils/Utils';
 import { TreeTypesQueries } from '../Queries/Queries';
+import { NewButton, SaveButton, DeleteButton, CloseButton, EditButton } from '../../../partials/Buttons';
+
+
+const reducer = (state, action) => {
+    // console.log("reducer function state, ", state, "action", action)
+    switch (action.type) {
+        case "Update":
+            return state.map((row) => {
+               if (row.id === action.id) {
+                    var name = action?.name ? action.name : row.name
+                    var lifespan = action?.lifespan ? action.lifespan : row.lifespan
+                    var oxygen = action?.oxygen ? action.oxygen : row.oxygen
+                    
+                    return {...row, name: name, oxygen:oxygen, lifespan:lifespan,  edit: !row.edit, modifiedOn: new Date()};
+                } else {
+                    return row;
+                }
+        });
+
+        case "Edit":
+        return state.map((row) => {
+            if (row.id === action.id) {
+            console.log("reduce, edit mode", row.edit)
+            return { ...row, edit: !row.edit };
+          } else {
+            return row;
+          }
+  
+        });
+        case "Add":
+        var id = "LineDraft" + (state.length + 10).toString();
+        var row = { id: id,  edit: false, delete: false, ...action.data }
+  
+        return [row, ...state]
+        case "DeleteConfirm":
+            return state.map((row) => {
+                if (row.id === action.id) {
+                // console.log("reduce, delete confirm", row.delete)
+                return { ...row, delete: !row.delete };
+              } else {
+                return row;
+              }
+            });
+  
+        case 'Delete':
+            // console.log("reduce, delete; state changed to ", state.filter((row) => { return row.id != action.id }));
+            return state.filter((row) => { return row.id != action.id })
+    
+        case 'New':
+           return action.data.map(row => {
+                return { ...row, edit: false, delete: false , new:false}
+      
+      
+            })
+
+        default:
+        // console.log("reducer defualt return, ", state, "action", action)
+            return state;
+    }
+  };
+
+
+
 
 /**
  * Table header for showing  tree type list
  * @returns 
  */
 
-
-function SaveButton(){
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-    {/* <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --> */}
-            <path d="M48 96V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V170.5c0-4.2-1.7-8.3-4.7-11.3l33.9-33.9c12 12 18.7 28.3 18.7 45.3V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96C0 60.7 28.7 32 64 32H309.5c17 0 33.3 6.7 45.3 18.7l74.5 74.5-33.9 33.9L320.8 84.7c-.3-.3-.5-.5-.8-.8V184c0 13.3-10.7 24-24 24H104c-13.3 0-24-10.7-24-24V80H64c-8.8 0-16 7.2-16 16zm80-16v80H272V80H128zm32 240a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/></svg>
-    )
-}
-
-
-function CloseButton(){
-    return(
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
-                                {/* <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --> */}
-                                <path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
-    )
-}
-
-
-function NewButton(){
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-            {/* <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --> */}
-            <path d="M64 80c-8.8 0-16 7.2-16 16V416c0 8.8 7.2 16 16 16H384c8.8 0 16-7.2 16-16V96c0-8.8-7.2-16-16-16H64zM0 96C0 60.7 28.7 32 64 32H384c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
-    )
-}
 
 function TableHeader({create}){
     return(
@@ -53,7 +90,7 @@ function TableHeader({create}){
             <th className="p-2 ">
                 <div className="inner flex justify-end font-semibold text-left">
                     <button onClick={()=>create(true)}>
-                        <NewButton />
+                        <NewButton/>
 
                     </button>
                 </div>
@@ -73,31 +110,85 @@ function TableHeader({create}){
 
 function TreeTypesList({data}){
 
-    const [treeTypesList, setTreeTypesList] = useState();
+    const [treeTypesList, setTreeTypesList] = useReducer(reducer, []);
     const [newTree, setNewTree] = useState(false);
     const [newTreeData, setNewTreeData] = useState();
     const [success, setSuccess] = useState();
+    const nameRef = useRef([]);
+    const lifespanRef = useRef([]);
+    const oxygenRef = useRef([]);
+    
 
-    const CreateTreeTypes = useCallback(async()=>{
-        const newTreeTypes = await TreeTypesQueries.createTreeType({name: newTreeData.name,
-                                                                lifespan: Number(newTreeData.lifespan),
-                                                                oxygen: Number(newTreeData.oxygen)})
+
+    const CreateTreeTypes = useCallback(async(data)=>{
+        const newTreeTypes = await TreeTypesQueries.createTreeType({name: data.name,
+                                                                lifespan: Number(data.lifespan),
+                                                                oxygen: Number(data.oxygen)})
             setSuccess(newTreeTypes.status)
       }, [])
+
+    const DeleteTreeTypes = useCallback(async({ids})=>{
+        const delTreeTypes = await TreeTypesQueries.deleteTreeType({ids:ids});
+    })
+
+    const UpdateTreeTypes = useCallback(async({id, name=null, lifespan=null, oxygen=null})=>{
+        const updateTreeTypes = await TreeTypesQueries.UpdateTreeType({
+                                                                id:id,
+                                                                name: name,
+                                                                lifespan: Number(lifespan),
+                                                                oxygen: Number(oxygen)})
+            setSuccess(updateTreeTypes.status)
+      }, [])
+
+ 
 
     useEffect(()=>{
         console.log("newTreeData updated ", newTreeData);
     }, [newTreeData])
 
+    // Set treetypelist received in props and set empty refs for name, lifespan and oxygen
     useEffect(()=>{
-        setTreeTypesList(data);
+        setTreeTypesList({type: "New", data: data});
+        // Init refs with empty array with length of received data
+        nameRef.current = nameRef.current.slice(0, data.length);
+        lifespanRef.current = lifespanRef.current.slice(0, data.length);
+        oxygenRef.current = oxygenRef.current.slice(0, data.length);
     }, [data])
+
 
     function AddNewTree(){
         // Saves in local var
-        setTreeTypesList(treeTypesList=>[...treeTypesList, newTreeData]);
+        setTreeTypesList({type: 'Add', data: newTreeData});
         setNewTree(false);
-        CreateTreeTypes()
+        CreateTreeTypes(newTreeData)
+    }
+
+    function deleteRow(id){
+
+        // delete row from hook
+        setTreeTypesList({type:"Delete", id:id})
+        // delete row from db
+        DeleteTreeTypes({ids:[id]})
+
+    }
+
+    function saveRow(id){
+        // edit TreeTypesList 
+        setTreeTypesList({
+            type:"Update", 
+            id: id,
+            name: nameRef.current[id]?.value,
+            lifespan: lifespanRef.current[id]?.value,
+            oxygen: oxygenRef.current[id]?.value
+        })
+
+        // update backend
+        UpdateTreeTypes({
+            id: id,
+            name: nameRef.current[id]?.value,
+            lifespan: lifespanRef.current[id]?.value,
+            oxygen: oxygenRef.current[id]?.value
+        })
     }
 
     return(
@@ -150,29 +241,76 @@ function TreeTypesList({data}){
                     </tr>
                     )}
                     {treeTypesList && treeTypesList.map(row=>(
-                    <tr className='border-t hover:bg-slate-200' id={row?.id}>
+                    <tr className='border-t hover:bg-slate-200' key={row?.id} id={row?.id} >
                         <td className="p-2">
-                            <div className="inner flex items-center text-slate-800 dark:text-slate-100">
+                            <input type={row.edit ? 'text':'hidden'} 
+                            defaultValue={row?.name}
+                            ref={el=>nameRef.current[row.id] = el}
+                            />
+                            {!row.edit && (
+                            <div  className="inner flex items-center text-slate-800 dark:text-slate-100">
                                {row.name}
                             </div>
+                            )}
                         </td>
                         <td className="p-2">
+                             <input type={row.edit ? 'number':'hidden'} 
+                                defaultValue={row?.lifespan}
+                                ref={el=>lifespanRef.current[row.id] = el}
+                                />
+                            {!row.edit && (
                             <div className="inner flex items-center text-slate-800 dark:text-slate-100">
                                 {row.lifespan}
                             </div>
+                            )}
                         </td>
                         <td className="p-2">
+                            <input type={row.edit ? 'number':'hidden'} 
+                                defaultValue={row?.oxygen}
+                                ref={el=>oxygenRef.current[row.id] = el}
+                                />
+                            {!row.edit && (
                             <div className="inner flex items-center text-slate-800 dark:text-slate-100">
                                 {row.oxygen}
                             </div>
+                            )}
                         </td>
                         <td className="p-2">
                             <div className="inner flex items-center justify-end text-slate-800 dark:text-slate-100">
                                 {formatDate(row.modifiedOn)}
                             </div>
                         </td>
+                        {/* Delete / New / Edit Column */}
                          <td className="p-2">
                             <div className="inner flex items-center justify-end text-slate-800 dark:text-slate-100">
+                            {row.delete ? ( 
+                                <div className='flex'>
+                                    <button className='px-1' onClick={(()=>deleteRow(row.id))}>Yes</button>
+                                    <button className='px-1' onClick={()=>setTreeTypesList({type:"DeleteConfirm", id: row.id })}>No</button>
+                                </div>
+                            ):(<>
+                                {row.edit? (
+                                <>
+                                    <button className='px-1' onClick={()=>saveRow(row.id)} >
+                                        <SaveButton />
+                                    </button>
+                                    <button className='px-1' onClick={()=>setTreeTypesList({type:'Edit', id: row?.id})}>
+                                        <CloseButton />
+                                    </button>
+                                </>
+                                
+                                ):(
+                                    <>
+                                        <button className='px-1' onClick={()=>setTreeTypesList({type:'Edit', id: row?.id})}>
+                                            <EditButton />
+                                        </button>
+                                        <button className='px-1' onClick={()=>setTreeTypesList({type:"DeleteConfirm", id: row.id })}>
+                                            <DeleteButton />
+                                        </button>
+                                    </>
+                               )}
+                               </>
+                            )}
                                
                             </div>
                         </td>

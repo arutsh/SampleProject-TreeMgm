@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from . import *
 
@@ -33,7 +33,8 @@ class TreeTypeManager(models.Manager):
         :return: None
         :rtype: None
         """
-        self.filter(id=id).update(**kwargs)
+        # TODO: update modified by         
+        self.filter(id=id).update(modified_on=timezone.now(), **kwargs)
         
         
         
