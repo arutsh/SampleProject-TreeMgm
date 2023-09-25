@@ -14,6 +14,7 @@ import './interceptors/axios'
 // Import pages
 import Dashboard from './pages/Dashboard';
 import TreeTypes from './modules/TreeType/pages/TreeTypes';
+import Tree from './modules/Tree/pages/Tree';
 
 function App() {
 
@@ -29,7 +30,8 @@ function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
-        <Route exact path="/tree-types" element={<TreeTypes />} />
+        <Route exact path="/trees/types" element={<TreeTypes />} />
+        <Route exact path="/trees" element={<Tree />} />
 
       </Routes>
     </>

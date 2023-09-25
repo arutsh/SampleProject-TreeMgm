@@ -149,15 +149,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 </NavLink>
               </li>
 
-              {/* Locations */}
-              <SidebarLinkGroup activecondition={pathname.includes('community')}>
+              {/* Tree Management */}
+              <SidebarLinkGroup activecondition={pathname.includes('tree')}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
                       <a
                         href="#0"
                         className={`block text-slate-200 truncate transition duration-150 ${
-                          pathname.includes('locations') ? 'hover:text-slate-200' : 'hover:text-white'
+                          pathname.includes('trees') ? 'hover:text-slate-200' : 'hover:text-white'
                         }`}
                         onClick={(e) => {
                           e.preventDefault();
@@ -168,25 +168,20 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <div className="flex items-center  w-full">
                             <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
                               <path
-                                className={`fill-current ${pathname.includes('Locations') ? 'text-indigo-500' : 'text-slate-600'}`}
+                                className={`fill-current ${pathname.includes('trees') ? 'text-indigo-500' : 'text-slate-600'}`}
                                 d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
                               />
                               <path
-                                className={`fill-current ${pathname.includes('Locations') ? 'text-indigo-300' : 'text-slate-400'}`}
+                                className={`fill-current ${pathname.includes('trees') ? 'text-indigo-300' : 'text-slate-400'}`}
                                 d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
                               />
                             </svg>
                             
                             <div className="flex items-center w-full justify-between">
                             <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Locations
+                              Tree Management
                             </span>
-                            {/* Badge */}
-                            {!open && (
-                              <div className="flex flex-shrink-0 ml-2" title={"There is new alerts in the area"}>
-                                  <span className="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-amber-500 px-2 rounded">3</span>
-                              </div>
-                              )}
+
                             </div>
                                
                           </div>
@@ -203,204 +198,29 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/locations/forest1"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <div className="grow flex items-center justify-between">
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Forest 1
-                              </span>
-                            {/* Badge */}
-                               <div className="flex flex-shrink-0 ml-2" title={"There is new alerts in the area"}>
-                                <span className="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-amber-500 px-2 rounded">2</span>
-                               </div>
-                              </div>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/users-tiles"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <div className="grow flex items-center justify-between">
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Forest 2
-                              </span>
-                              {/* Badge */}
-                              <div className="flex flex-shrink-0 ml-2" title={"There is new alerts in the area"}>
-                                <span className="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-amber-500 px-2 rounded">1</span>
-                               </div>
-                               </div>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/users-tiles"
+                              to="/trees"
                               className={({ isActive }) =>
                                 'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
                               }
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Other
+                                Trees
                               </span>
-                            </NavLink>
-                          </li>
-                          
-                        </ul>
-                      </div>
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
 
-              {/* Community */}
-              <SidebarLinkGroup activecondition={pathname.includes('community')}>
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <a
-                        href="#0"
-                        className={`block text-slate-200 truncate transition duration-150 ${
-                          pathname.includes('community') ? 'hover:text-slate-200' : 'hover:text-white'
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded ? handleClick() : setSidebarExpanded(true);
-                        }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                              <path
-                                className={`fill-current ${pathname.includes('community') ? 'text-indigo-500' : 'text-slate-600'}`}
-                                d="M18.974 8H22a2 2 0 012 2v6h-2v5a1 1 0 01-1 1h-2a1 1 0 01-1-1v-5h-2v-6a2 2 0 012-2h.974zM20 7a2 2 0 11-.001-3.999A2 2 0 0120 7zM2.974 8H6a2 2 0 012 2v6H6v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5H0v-6a2 2 0 012-2h.974zM4 7a2 2 0 11-.001-3.999A2 2 0 014 7z"
-                              />
-                              <path
-                                className={`fill-current ${pathname.includes('community') ? 'text-indigo-300' : 'text-slate-400'}`}
-                                d="M12 6a3 3 0 110-6 3 3 0 010 6zm2 18h-4a1 1 0 01-1-1v-6H6v-6a3 3 0 013-3h6a3 3 0 013 3v6h-3v6a1 1 0 01-1 1z"
-                              />
-                            </svg>
-                            <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Community
-                            </span>
-                          </div>
-                          {/* Icon */}
-                          <div className="flex shrink-0 ml-2">
-                            <svg className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${open && 'rotate-180'}`} viewBox="0 0 12 12">
-                              <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                      <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                        <ul className={`pl-9 mt-1 ${!open && 'hidden'}`}>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/users-tabs"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Users - Tabs
-                              </span>
+
                             </NavLink>
                           </li>
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/community/users-tiles"
+                              to="/trees/types"
                               className={({ isActive }) =>
                                 'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
                               }
                             >
+                              
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Users - Tiles
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/profile"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Profile
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/feed"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Feed
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/forum"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Forum
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/forum-post"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Forum - Post
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/meetups"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Meetups
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/meetups-post"
-                              className={({ isActive }) =>
-                                'block transition duration-150 truncate ' + (isActive ? 'text-indigo-500' : 'text-slate-400 hover:text-slate-200')
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Meetups - Post
+                                Tree Types
                               </span>
                             </NavLink>
                           </li>
@@ -410,127 +230,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   );
                 }}
               </SidebarLinkGroup>
-                            
-              {/* Tasks */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('messages') && 'bg-slate-900'}`}>
-                <NavLink
-                  end
-                  to="/todo"
-                  className={`block text-slate-200 truncate transition duration-150 ${
-                    pathname.includes('messages') ? 'hover:text-slate-200' : 'hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="grow flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                              <path
-                                className={`fill-current ${pathname.includes('todo') ? 'text-indigo-500' : 'text-slate-600'}`}
-                                d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z"
-                              />
-                              <path
-                                className={`fill-current ${pathname.includes('todo') ? 'text-indigo-500' : 'text-slate-600'}`}
-                                d="M1 1h22v23H1z"
-                              />
-                              <path
-                                className={`fill-current ${pathname.includes('tasks') ? 'text-indigo-300' : 'text-slate-400'}`}
-                                d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z"
-                              />
-                            </svg>
-                          <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                            To Do
-                          </span>
-                    </div>
-                    {/* Badge */}
-                    <div className="flex flex-shrink-0 ml-2" title='You have planed task for this month'>
-                      <span className="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-indigo-500 px-2 rounded">5</span>
-                    </div>
-                  </div>
-                </NavLink>
-              </li>
 
-              
-              {/* Calendar */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('calendar') && 'bg-slate-900'}`}>
-                <NavLink
-                  end
-                  to="/calendar"
-                  className={`block text-slate-200 truncate transition duration-150 ${
-                    pathname.includes('calendar') ? 'hover:text-slate-200' : 'hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current ${pathname.includes('calendar') ? 'text-indigo-500' : 'text-slate-600'}`} d="M1 3h22v20H1z" />
-                      <path
-                        className={`fill-current ${pathname.includes('calendar') ? 'text-indigo-300' : 'text-slate-400'}`}
-                        d="M21 3h2v4H1V3h2V1h4v2h10V1h4v2Z"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Calendar
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
 
-              {/* Messages */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('messages') && 'bg-slate-900'}`}>
-                <NavLink
-                  end
-                  to="/messages"
-                  className={`block text-slate-200 truncate transition duration-150 ${
-                    pathname.includes('messages') ? 'hover:text-slate-200' : 'hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="grow flex items-center">
-                      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                        <path
-                          className={`fill-current ${pathname.includes('messages') ? 'text-indigo-500' : 'text-slate-600'}`}
-                          d="M14.5 7c4.695 0 8.5 3.184 8.5 7.111 0 1.597-.638 3.067-1.7 4.253V23l-4.108-2.148a10 10 0 01-2.692.37c-4.695 0-8.5-3.184-8.5-7.11C6 10.183 9.805 7 14.5 7z"
-                        />
-                        <path
-                          className={`fill-current ${pathname.includes('messages') ? 'text-indigo-300' : 'text-slate-400'}`}
-                          d="M11 1C5.477 1 1 4.582 1 9c0 1.797.75 3.45 2 4.785V19l4.833-2.416C8.829 16.85 9.892 17 11 17c5.523 0 10-3.582 10-8s-4.477-8-10-8z"
-                        />
-                      </svg>
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                        Messages
-                      </span>
-                    </div>
-                    {/* Badge */}
-                    <div className="flex flex-shrink-0 ml-2">
-                      <span className="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-indigo-500 px-2 rounded">4</span>
-                    </div>
-                  </div>
-                </NavLink>
-              </li>
-              {/* Campaigns */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('campaigns') && 'bg-slate-900'}`}>
-                <NavLink
-                  end
-                  to="/campaigns"
-                  className={`block text-slate-200 truncate transition duration-150 ${
-                    pathname.includes('campaigns') ? 'hover:text-slate-200' : 'hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path
-                        className={`fill-current ${pathname.includes('campaigns') ? 'text-indigo-500' : 'text-slate-600'}`}
-                        d="M20 7a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 0120 7zM4 23a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 014 23z"
-                      />
-                      <path
-                        className={`fill-current ${pathname.includes('campaigns') ? 'text-indigo-300' : 'text-slate-400'}`}
-                        d="M17 23a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 010-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1zM7 13a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 112 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Campaigns
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
+
               {/* Settings */}
               <SidebarLinkGroup activecondition={pathname.includes('settings')}>
                 {(handleClick, open) => {

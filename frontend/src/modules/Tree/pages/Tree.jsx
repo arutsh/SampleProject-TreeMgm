@@ -2,26 +2,29 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import Sidebar from '../../../partials/Sidebar';
 import Header from '../../../partials/Header';
-import TreeTypesList from '../components/TreeTypesList';
-import { TreeTypesQueries } from '../Queries/Queries';
+
+
+import TreeList from '../components/TreeList';
+import { TreeQueries } from '../Queries/Queries';
 
 
 
-function TreeTypes() {
+function Tree() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [data, setData] = useState();
 
-  const FetchTreeTypes = useCallback(async()=>{
-    const treeTypes = await TreeTypesQueries.getAllTreeTypes({});
-    if(treeTypes.status){
-      setData(treeTypes.data);
+  const FetchTrees = useCallback(async()=>{
+
+    const trees = await TreeQueries.getAllTrees({});
+    if(trees.status){
+      setData(trees.data);
     }
   }, [])
 
   useEffect(()=>{
-    FetchTreeTypes()
-  }, [FetchTreeTypes])
+    FetchTrees()
+  }, [FetchTrees])
   
   useEffect(()=>{
     console.log("the fetched tree types are", data);
@@ -41,16 +44,17 @@ function TreeTypes() {
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
         <main>
-          {/* Header */}
-          <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
+
+        <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
             <h1 className='text-2xl font-semibold'>
-            Tree Types
+            Trees
             </h1>
           </div>
 
-          <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-9xl mx-auto">
+          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
           {data && (
-            <TreeTypesList data={data} />
+            // <TreeTypesList data={data} />
+            <TreeList data={data}/>
           )}
 
             
@@ -64,4 +68,4 @@ function TreeTypes() {
   );
 }
 
-export default TreeTypes;
+export default Tree;

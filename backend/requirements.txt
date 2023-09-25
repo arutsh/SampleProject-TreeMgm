@@ -4,6 +4,7 @@ coverage==7.3.1
 Django==4.2.5
 django-cors-headers==4.2.0
 django-environ==0.11.2
+django-extensions==3.2.3
 django-graphql-jwt==0.4.0
 djangorestframework==3.14.0
 Faker==12.0.1
@@ -16,6 +17,7 @@ mixer==7.2.2
 packaging==23.1
 promise==2.3
 psycopg2-binary==2.9.7
+pygraphviz==1.11
 PyJWT==2.8.0
 python-dateutil==2.8.2
 pytz==2023.3.post1

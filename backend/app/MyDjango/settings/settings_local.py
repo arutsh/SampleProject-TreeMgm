@@ -71,6 +71,7 @@ CORS_ALLOW_HEADERS = [
 
 INSTALLED_APPS = [
     'corsheaders',
+    'django_extensions',
     'user',
     'tree.apps.TreeConfig',
     'graphene_django',
