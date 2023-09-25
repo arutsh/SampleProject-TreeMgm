@@ -11,13 +11,14 @@ class TreeTypeManager(models.Manager):
         """Try to get requestied item, if does not exist return None
 
         :return: item or None
-        :rtype: Tree
+        :rtype: TreeType
         """
         return self.filter(**kwargs).first()
 
 
     def create(self, **kwargs):
-        """Overriding create function just in case we have to do something with arguments before we create new record
+        """
+        Overriding create function just in case we have to do something with arguments before we create new record
         """
 
         return super(models.Manager, self).create(**kwargs)
