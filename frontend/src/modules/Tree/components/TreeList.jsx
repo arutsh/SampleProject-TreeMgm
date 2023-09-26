@@ -260,7 +260,7 @@ function TreeList({data}){
                         </td>
                         <td className="p-2">
                             <input type={row.edit ? 'text':'hidden'} 
-                                defaultValue={row?.type?.name}
+                                defaultValue={row?.type?.id}
                                 ref={el=>typeRef.current[row.id] = el}
                                 />
                             {!row.edit && (

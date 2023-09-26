@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Dashboard />} />
+        <Route exact path="/" element={<Tree />} />
         <Route exact path="/trees/types" element={<TreeTypes />} />
         <Route exact path="/trees" element={<Tree />} />
 
