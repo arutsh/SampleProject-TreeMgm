@@ -1,8 +1,9 @@
 # Sample Project Tree Management
 
 
-
+## Option 1 withou docker containers
 ### To set up and start backend in dev env
+
 
 ```
 cd backend
@@ -48,3 +49,27 @@ to access follow: http://127.0.0.1:3000/
 
 p.s. all env variables are included in repo as well
 
+
+
+## Option 2: With docker container:
+
+To start docker compose in dev environment 
+
+```
+
+docker-compose  --env-file env/.env.dev  up --build
+
+```
+
+To create super user: 
+
+```
+docker-compose --env-file ./env/.env.dev run --rm django  sh -c "python manage.py createsuperuser"
+
+```
+
+To stop container:
+
+```
+docker-compose down
+```
