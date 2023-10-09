@@ -7,6 +7,8 @@ COPY ./requirements.txt /requirements.txt
 RUN apk add --update --no-cache postgresql-client build-base postgresql-dev \
                                 musl-dev zlib zlib-dev linux-headers
 
+RUN apk add pkgconfig graphviz graphviz-dev gcc musl-dev 
+
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /requirements.txt
@@ -20,6 +22,6 @@ ENV PATH="/scripts:/py/bin:$PATH"
 
 COPY ./app /app
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8000
 
 CMD ["/scripts/run.sh"]

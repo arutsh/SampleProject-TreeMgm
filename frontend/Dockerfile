@@ -1,26 +1,20 @@
-FROM node:14
+FROM node:lts-alpine3.14
 
 # set inotify and start the node application, replace yar with your command
 # RUN echo "fs.inotify.max_user_watches=524288 >> /etc/sysctl.conf"
 
-
-WORKDIR /
-COPY ./package.json  /package.json
-COPY ./package-lock.json /package-lock.json
-
+# 1. copy package.json and package-lock.json to /app dir
+RUN mkdir /app
+COPY package*.json /app
+# COPY ./package-lock.json /package-lock.json
+WORKDIR /app
 RUN npm install 
 RUN npm install react-scripts@3.4.1 -g 
 RUN npm fund
 
-# COPY ./public /public
-# COPY ./src /src
-# COPY ./index.html /index.html
-# COPY ./postcss.config.js /postcss.config.js
-# COPY ./vite.config.js /vite.config.js 
+
 COPY . .
-# USER noro
-
+# 5. Expose port 3000 on the container
 EXPOSE 3000
-# trying to add to git
+# 6. Run the app
 CMD ["npm", "run", "dev"]
-

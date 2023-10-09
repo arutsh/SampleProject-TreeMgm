@@ -12,7 +12,7 @@ import './charts/ChartjsConfig';
 import './interceptors/axios'
 
 // Import pages
-import Dashboard from './pages/Dashboard';
+
 import TreeTypes from './modules/TreeType/pages/TreeTypes';
 import Tree from './modules/Tree/pages/Tree';
 
