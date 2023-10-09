@@ -32,7 +32,6 @@ SECRET_KEY=env('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,6 +53,7 @@ AUTH_USER_MODEL = 'user.User'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -168,3 +168,59 @@ MEDIA_ROOT = '/vol/web/media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_CREDENTIALS = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SAMESITE = 'None'
+
+# CORS_ORIGIN_ALLOW_ALL = False
+
+
+
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:3000',
+#     'http://localhost:3000',
+#     'http://0.0.0.0:3000'
+# ]
+
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://127.0.0.1:3000',
+#     'http://localhost:3000',
+#     'http://0.0.0.0:3000'
+# ]
+
+
+
+
+CORS_ALLOW_METHODS = [
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+'x-csrf-token',
+]
+
+CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_WHITELIST = [
+     'http://127.0.0.1:3000'
+]

@@ -5,7 +5,7 @@ from ..models import *
 # Create your tests here.
 
 
-class TreeTypeTest(TestCase):
+class TreeTest(TestCase):
     
     def setUp(self):
         self.tree1 = mixer.blend(Tree)

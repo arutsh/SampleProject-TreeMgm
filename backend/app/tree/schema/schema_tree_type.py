@@ -55,7 +55,7 @@ class CreateTreeTypeMutation(graphene.Mutation):
     tree_type = graphene.Field(TreeTypeType)
 
     @classmethod
-    def mutate(cls, root, 
+    def mutate(cls, root,
                info, name, 
                description=None,
                lifespan=None, 

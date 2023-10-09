@@ -34,7 +34,7 @@ class TreeTypeManager(models.Manager):
         :return: None
         :rtype: None
         """
-        # TODO: update modified by         
+       
         self.filter(id=id).update(modified_on=timezone.now(), **kwargs)
         
         
